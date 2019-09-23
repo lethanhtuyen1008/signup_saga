@@ -1,5 +1,5 @@
 var initialState = {
-    user : JSON.parse(localStorage.getItem('Usersignup')) ? JSON.parse(localStorage.getItem('Usersignup')) : ''
+    user : '',
 };
 var myReducer = (state = initialState, action) =>{
   switch(action.type){

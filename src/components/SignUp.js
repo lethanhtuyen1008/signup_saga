@@ -16,31 +16,8 @@ class SignUp extends Component {
     this.props.form.validateFields();
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        //console.log('Received values of form: ', values);
-        sessionStorage.setItem('Usersignup', JSON.stringify(values));
-        var value = JSON.parse(sessionStorage.getItem('Usersignup'));
-        if (value) {
-          this.props.handForm(async () => {
-            let options = {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(values)
-            }
-            await fetch("https://ones.tuoitresoft.com/api/v1/auth/sign-up", options)
-              .then((res) => res.json())
-              .then((values) => console.log(values))
-              .catch((err) => console.log(err))
-
-          })
-        }
-      }
       this.props.onSignUp(values);
-      return values;
     });
-
   };
   checkPhoneNumber = (rules, values, callback) => {
     if (!values) {
@@ -48,18 +25,6 @@ class SignUp extends Component {
     }
     else if (!isMobilePhone(values, 'vi-VN')) {
       callback('invalid phone number');
-    }
-    else {
-      callback();
-    }
-  }
-
-  checkGender = (rules, values, callback) => {
-    if (!values) {
-      callback('Please input the gender')
-    }
-    else if (values !== 'nam' || values !== 'nữ') {
-      callback('invalid gender');
     }
     else {
       callback();
@@ -111,7 +76,7 @@ class SignUp extends Component {
         <Form.Item className="col-gender">
           {getFieldDecorator('gender', {
 
-           rules: [{ required: true, message: 'Please input your last name!' }],
+            rules: [{ required: true, message: 'Please input your last name!' }],
 
           })(
             <Radio.Group name="radiogroup" >
@@ -176,7 +141,7 @@ const mapStateToProps = state => {
 
 const mapDispachToProps = dispatch => {
   return {
-    onSignUp: (values) => dispatch(actions.SignUp(values)),
+    onSignUp: (user) => dispatch(actions.SignUp(user)),
   };
 };
 const WrappedSignUpForm = Form.create()(SignUp);
